@@ -17,10 +17,10 @@ class ShopPage extends Component {
   render() {
     const { collections } = this.state
     return (
-      <div className="shop-page">{
-        collections.map(({id,...OtherCollectionsProps}) =>
+      <div className="shop-page">
+        {collections.map(({id,...OtherCollectionsProps}) => (
           <CollectionPreview key={id} {...OtherCollectionsProps} />
-        )}
+        ))}
       </div>
     )
   }
