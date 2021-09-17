@@ -11,7 +11,7 @@ import Header from "./components/header/header.component.jsx";
 import SignInAndSignUpPage from "./pages/sign-in-sign-up/sign-in-sign-up.component";
 
 // utils
-import { auth } from "./firebase/firebase.util";
+import { auth, createUserProfileDocument } from "./firebase/firebase.util";
 
 class App extends Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class App extends Component {
     // onAuthStateChange returns unsubscribe function for the observer
     this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
       this.setState({ currentUser: user });
+      createUserProfileDocument(user);
     });
   }
 
