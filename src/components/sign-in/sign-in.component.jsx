@@ -27,7 +27,7 @@ class SignIn extends Component {
 
   changeHandler = (event) => {
     const { value, name } = event.target;
-    this.setState({ [name]: value },() => console.log(this.state[name]));
+    this.setState({ [name]: value });
   };
 
   render() {
@@ -35,7 +35,7 @@ class SignIn extends Component {
       <div className="sign-in">
         <h2>I already have an account</h2>
         <span>Sign in with your email and password</span>
-        <form onSubmit={this.submitHandler}>
+        <form className="sign-in-form" onSubmit={this.submitHandler}>
           <FormInput
             label="Email"
             type="email"
