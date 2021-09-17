@@ -28,7 +28,6 @@ class App extends Component {
     // onAuthStateChange returns unsubscribe function for the observer
     this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
       this.setState({ currentUser: user });
-      console.log(user);
     });
   }
 
