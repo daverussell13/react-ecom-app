@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Route, Switch } from "react-router-dom";
+import { onSnapshot } from "firebase/firestore";
 
 // css
 import "./App.css";
@@ -17,23 +18,30 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null
-    }
+      currentUser: null,
+    };
   }
 
-  // default val
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    // onAuthStateChange returns unsubscribe function for the observer
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      createUserProfileDocument(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        onSnapshot(userRef, (snapshot) => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data(),
+            },
+          }, () => console.log(this.state.currentUser));
+        });
+      }
+      else this.setState({ currentUser: userAuth });
     });
   }
 
   componentWillUnmount() {
-    // simply call the unsubscribe function
     this.unsubscribeFromAuth();
   }
 

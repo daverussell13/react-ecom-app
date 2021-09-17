@@ -19,13 +19,10 @@ export const db = getFirestore(app);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if(!userAuth) return;
-  // get the object refference
   const userRef = doc(db,`users/${userAuth.uid}`);
-  // get the object snapshot
   const userSnapShot = await getDoc(userRef);
-  // if the user is not exist in the firestore
+
   if(!userSnapShot.exists()){
-    // credentials for db
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
@@ -39,6 +36,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       console.log("Error creating user : ",err.message);
     }
   }
+
+  return userRef;
 }
 
 export const signInWithGoogle = () => {
